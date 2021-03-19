@@ -165,7 +165,7 @@ remove_obsolete_nginx_ports() {
           fi
         fi
     fi
-    done        
+    done
 }
 
 detect_docker_compose_command(){
@@ -176,11 +176,11 @@ if ! [[ "${DOCKER_COMPOSE_VERSION}" =~ ^(native|standalone)$ ]]; then
         COMPOSE_COMMAND="docker compose"
         echo -e "\e[33mFound Docker Compose Plugin (native).\e[0m"
         echo -e "\e[33mSetting the DOCKER_COMPOSE_VERSION Variable to native\e[0m"
-        sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=native/' $SCRIPT_DIR/mailcow.conf 
+        sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=native/' $SCRIPT_DIR/mailcow.conf
         sleep 2
         echo -e "\e[33mNotice: You'll have to update this Compose Version via your Package Manager manually!\e[0m"
       else
-        echo -e "\e[31mCannot find Docker Compose with a Version Higher than 2.X.X.\e[0m" 
+        echo -e "\e[31mCannot find Docker Compose with a Version Higher than 2.X.X.\e[0m"
         echo -e "\e[31mPlease update/install it manually regarding to this doc site: https://docs.mailcow.email/install/\e[0m"
         exit 1
       fi
@@ -195,54 +195,54 @@ if ! [[ "${DOCKER_COMPOSE_VERSION}" =~ ^(native|standalone)$ ]]; then
         sleep 2
         echo -e "\e[33mNotice: For an automatic update of docker-compose please use the update_compose.sh scripts located at the helper-scripts folder.\e[0m"
       else
-        echo -e "\e[31mCannot find Docker Compose with a Version Higher than 2.X.X.\e[0m" 
+        echo -e "\e[31mCannot find Docker Compose with a Version Higher than 2.X.X.\e[0m"
         echo -e "\e[31mPlease update/install regarding to this doc site: https://docs.mailcow.email/install/\e[0m"
         exit 1
       fi
     fi
 
   else
-    echo -e "\e[31mCannot find Docker Compose.\e[0m" 
+    echo -e "\e[31mCannot find Docker Compose.\e[0m"
     echo -e "\e[31mPlease install it regarding to this doc site: https://docs.mailcow.email/install/\e[0m"
     exit 1
   fi
 
 elif [ "${DOCKER_COMPOSE_VERSION}" == "native" ]; then
   COMPOSE_COMMAND="docker compose"
-  # Check if Native Compose works and has not been deleted  
+  # Check if Native Compose works and has not been deleted
   if ! $COMPOSE_COMMAND > /dev/null 2>&1; then
     # IF it not exists/work anymore try the other command
     COMPOSE_COMMAND="docker-compose"
     if ! $COMPOSE_COMMAND > /dev/null 2>&1 || ! $COMPOSE_COMMAND --version | grep "^2." > /dev/null 2>&1; then
       # IF it cannot find Standalone in > 2.X, then script stops
-      echo -e "\e[31mCannot find Docker Compose or the Version is lower then 2.X.X.\e[0m" 
+      echo -e "\e[31mCannot find Docker Compose or the Version is lower then 2.X.X.\e[0m"
       echo -e "\e[31mPlease install it regarding to this doc site: https://docs.mailcow.email/install/\e[0m"
       exit 1
     fi
       # If it finds the standalone Plugin it will use this instead and change the mailcow.conf Variable accordingly
       echo -e "\e[31mFound different Docker Compose Version then declared in mailcow.conf!\e[0m"
       echo -e "\e[31mSetting the DOCKER_COMPOSE_VERSION Variable from native to standalone\e[0m"
-      sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=standalone/' $SCRIPT_DIR/mailcow.conf 
+      sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=standalone/' $SCRIPT_DIR/mailcow.conf
       sleep 2
   fi
 
 
 elif [ "${DOCKER_COMPOSE_VERSION}" == "standalone" ]; then
   COMPOSE_COMMAND="docker-compose"
-  # Check if Standalone Compose works and has not been deleted  
+  # Check if Standalone Compose works and has not been deleted
   if ! $COMPOSE_COMMAND > /dev/null 2>&1 && ! $COMPOSE_COMMAND --version > /dev/null 2>&1 | grep "^2." > /dev/null 2>&1; then
     # IF it not exists/work anymore try the other command
     COMPOSE_COMMAND="docker compose"
     if ! $COMPOSE_COMMAND > /dev/null 2>&1; then
       # IF it cannot find Native in > 2.X, then script stops
-      echo -e "\e[31mCannot find Docker Compose.\e[0m" 
+      echo -e "\e[31mCannot find Docker Compose.\e[0m"
       echo -e "\e[31mPlease install it regarding to this doc site: https://docs.mailcow.email/install/\e[0m"
       exit 1
     fi
       # If it finds the native Plugin it will use this instead and change the mailcow.conf Variable accordingly
       echo -e "\e[31mFound different Docker Compose Version then declared in mailcow.conf!\e[0m"
       echo -e "\e[31mSetting the DOCKER_COMPOSE_VERSION Variable from standalone to native\e[0m"
-      sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=native/' $SCRIPT_DIR/mailcow.conf 
+      sed -i 's/^DOCKER_COMPOSE_VERSION=.*/DOCKER_COMPOSE_VERSION=native/' $SCRIPT_DIR/mailcow.conf
       sleep 2
   fi
 fi
@@ -322,10 +322,10 @@ unset COMPOSE_COMMAND
 unset DOCKER_COMPOSE_VERSION
 
 for bin in curl docker git awk sha1sum grep cut; do
-  if [[ -z $(command -v ${bin}) ]]; then 
-  echo "Cannot find ${bin}, exiting..." 
+  if [[ -z $(command -v ${bin}) ]]; then
+  echo "Cannot find ${bin}, exiting..."
   exit 1;
-  fi  
+  fi
 done
 
 export LC_ALL=C
@@ -336,7 +336,7 @@ while (($#)); do
   case "${1}" in
     --check|-c)
       echo "Checking remote code for updates..."
-      LATEST_REV=$(git ls-remote --exit-code --refs --quiet https://github.com/mailcow/mailcow-dockerized ${BRANCH} | cut -f1)
+      LATEST_REV=$(git ls-remote --exit-code --refs --quiet https://github.com/daniele-athome/mailcow-dockerized ${BRANCH} | cut -f1)
       if [ $? -ne 0 ]; then
         echo "A problem occurred while trying to fetch the latest revision from github."
         exit 99
@@ -761,7 +761,7 @@ for option in ${CONFIG_ARRAY[@]}; do
       echo '# Prevent netfilter from setting an iptables/nftables rule to isolate the mailcow docker network - y/n' >> mailcow.conf
       echo '# CAUTION: Disabling this may expose container ports to other neighbors on the same subnet, even if the ports are bound to localhost' >> mailcow.conf
       echo 'DISABLE_NETFILTER_ISOLATION_RULE=n' >> mailcow.conf
-    fi 
+    fi
   elif ! grep -q ${option} mailcow.conf; then
     echo "Adding new option \"${option}\" to mailcow.conf"
     echo "${option}=n" >> mailcow.conf
@@ -811,7 +811,7 @@ elif [ $NEW_BRANCH == "master" ] && [ $CURRENT_BRANCH != "master" ]; then
   sleep 1
   echo -e "\e[31mWARNING: Please see on GitHub or ask in the communitys if a switch to master is stable or not.
   In some rear cases a Update back to master can destroy your mailcow configuration in case of Database Upgrades etc.
-  Normally a upgrade back to master should be safe during each full release. 
+  Normally a upgrade back to master should be safe during each full release.
   Check GitHub for Database Changes and Update only if there similar to the full release!\e[0m"
   read -r -p "Are you sure you that want to continue upgrading to the stable (master) branch? [y/N] " response
   if [[ ! "${response}" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
@@ -924,9 +924,9 @@ done
 # Silently fixing remote url from andryyy to mailcow
 # git remote set-url origin https://github.com/mailcow/mailcow-dockerized
 
-DEFAULT_REPO=https://github.com/mailcow/mailcow-dockerized
+DEFAULT_REPO=https://github.com/daniele-athome/mailcow-dockerized
 CURRENT_REPO=$(git config --get remote.origin.url)
-if [ "$CURRENT_REPO" != "$DEFAULT_REPO" ]; then 
+if [ "$CURRENT_REPO" != "$DEFAULT_REPO" ]; then
   echo "The Repository currently used is not the default Mailcow Repository."
   echo "Currently Repository: $CURRENT_REPO"
   echo "Default Repository:   $DEFAULT_REPO"
