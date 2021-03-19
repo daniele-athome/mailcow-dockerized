@@ -2146,7 +2146,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               if (!empty($is_now)) {
                 $gal                  = (isset($_data['gal'])) ? intval($_data['gal']) : $is_now['gal'];
                 $xmpp                 = (isset($_data['xmpp']) && !empty($_SESSION['acl']['xmpp_domain_access']) && $_SESSION['acl']['xmpp_domain_access'] == "1") ? intval($_data['xmpp']) : $is_now['xmpp'];
-                $xmpp_prefix          = (!empty($_data['xmpp_prefix']) && !empty($_SESSION['acl']['xmpp_prefix']) && $_SESSION['acl']['xmpp_prefix'] == "1") ? $_data['xmpp_prefix'] : $is_now['xmpp_prefix'];
+                $xmpp_prefix          = (!empty($_data['xmpp_prefix']) && !empty($_SESSION['acl']['xmpp_prefix']) && $_SESSION['acl']['xmpp_prefix'] == "1") ? $_data['xmpp_prefix'] : '';
                 $description          = (!empty($_data['description']) && isset($_SESSION['acl']['domain_desc']) && $_SESSION['acl']['domain_desc'] == "1") ? $_data['description'] : $is_now['description'];
                 (int)$relayhost       = (isset($_data['relayhost']) && isset($_SESSION['acl']['domain_relayhost']) && $_SESSION['acl']['domain_relayhost'] == "1") ? intval($_data['relayhost']) : intval($is_now['relayhost']);
               }
@@ -2194,7 +2194,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
                 $maxquota             = (!empty($_data['maxquota'])) ? $_data['maxquota'] : ($is_now['max_quota_for_mbox'] / 1048576);
                 $quota                = (!empty($_data['quota'])) ? $_data['quota'] : ($is_now['max_quota_for_domain'] / 1048576);
                 $description          = (!empty($_data['description'])) ? $_data['description'] : $is_now['description'];
-                $xmpp_prefix          = (!empty($_data['xmpp_prefix'])) ? $_data['xmpp_prefix'] : $is_now['xmpp_prefix'];
+                $xmpp_prefix          = (!empty($_data['xmpp_prefix'])) ? $_data['xmpp_prefix'] : '';
                 if ($relay_all_recipients == '1') {
                   $backupmx = '1';
                 }

@@ -111,12 +111,12 @@ function xmpp_rebuild_configs() {
 
   try {
     $xmpp_domains = array();
-    $stmt = $pdo->query('SELECT CONCAT(`xmpp_prefix`, ".", `domain`) AS `xmpp_host`, `domain` FROM `domain` WHERE `xmpp` = 1');
+    $stmt = $pdo->query('SELECT CONCAT(`xmpp_prefix`, IF(`xmpp_prefix`, ".", ""), `domain`) AS `xmpp_host`, `domain` FROM `domain` WHERE `xmpp` = 1');
     $xmpp_domain_rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($xmpp_domain_rows as $xmpp_domain_row) {
       $xmpp_domains[$xmpp_domain_row['domain']] = array('xmpp_host' => $xmpp_domain_row['xmpp_host']);
-      $stmt = $pdo->query('SELECT CONCAT(`local_part`, "@", CONCAT(`domain`.`xmpp_prefix`, ".", `domain`.`domain`)) AS `xmpp_username` FROM `mailbox`
+      $stmt = $pdo->query('SELECT CONCAT(`local_part`, "@", CONCAT(`domain`.`xmpp_prefix`, IF(`domain`.`xmpp_prefix`, ".", ""), `domain`.`domain`)) AS `xmpp_username` FROM `mailbox`
         JOIN `domain`
           WHERE `domain`.`xmpp` = 1
             AND JSON_VALUE(`attributes`, "$.xmpp_admin") = 1');
