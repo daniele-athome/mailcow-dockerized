@@ -147,7 +147,7 @@ class mailcowCommandExecutor implements CommandExecutorInterface {
             AND `domain`.`active`= '1'
             AND `domain`.`xmpp` = '1'
             AND JSON_UNQUOTE(JSON_VALUE(`mailbox`.`attributes`, '$.xmpp_access')) = '1'
-            AND CONCAT(`domain`.`xmpp_prefix`, '.', `domain`.`domain`) = :servername
+            AND CONCAT(`domain`.`xmpp_prefix`, IF(`domain`.`xmpp_prefix`, '.', ''), `domain`.`domain`) = :servername
             AND `username` = CONCAT(:local_part, '@', `domain`.`domain`)");
       $stmt->execute(array(':local_part' => $username, ':servername' => $servername));
       $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
