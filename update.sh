@@ -346,13 +346,13 @@ while (($#)); do
   case "${1}" in
     --check|-c)
       echo "Checking remote code for updates..."
-      LATEST_REV=$(git ls-remote --exit-code --refs --quiet https://github.com/mailcow/mailcow-dockerized "${BRANCH}" | cut -f1)
+      LATEST_REV=$(git ls-remote --exit-code --refs --quiet https://github.com/daniele-athome/mailcow-dockerized "${BRANCH}" | cut -f1)
       if [ "$?" -ne 0 ]; then
         echo "A problem occurred while trying to fetch the latest revision from github."
         exit 99
       fi
       if [[ -z $(git log HEAD --pretty=format:"%H" | grep "${LATEST_REV}") ]]; then
-        echo -e "Updated code is available.\nThe changes can be found here: https://github.com/mailcow/mailcow-dockerized/commits/master"
+        echo -e "Updated code is available.\nThe changes can be found here: https://github.com/daniele-athome/mailcow-dockerized/commits/master"
         git log --date=short --pretty=format:"%ad - %s" "$(git rev-parse --short HEAD)"..origin/master
         exit 0
       else
@@ -948,7 +948,7 @@ done
 # Silently fixing remote url from andryyy to mailcow
 # git remote set-url origin https://github.com/mailcow/mailcow-dockerized
 
-DEFAULT_REPO="https://github.com/mailcow/mailcow-dockerized"
+DEFAULT_REPO="https://github.com/daniele-athome/mailcow-dockerized"
 CURRENT_REPO=$(git config --get remote.origin.url)
 if [ "$CURRENT_REPO" != "$DEFAULT_REPO" ]; then
   echo "The Repository currently used is not the default Mailcow Repository."
