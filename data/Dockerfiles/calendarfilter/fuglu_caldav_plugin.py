@@ -200,9 +200,14 @@ class CalendarPlugin(ScannerPlugin):
     if event['uid'] != event_uid:
       raise ValueError("Event uid mismatch!")
 
-    attendee = event['attendee']
-    if attendee.casefold() == attendee_email.casefold():
-      return attendee
+    if isinstance(event['attendee'], list):
+      for attendee in event['attendee']:  # type: icalendar.vCalAddress
+        if attendee.casefold() == attendee.casefold():
+          return attendee
+    else:
+      attendee = event['attendee']
+      if attendee.casefold() == attendee.casefold():
+        return attendee
 
     raise ValueError("Attendee not found: %s" % attendee_email)
 
