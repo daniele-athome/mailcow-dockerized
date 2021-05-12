@@ -201,7 +201,7 @@ class CalendarPlugin(ScannerPlugin):
       raise ValueError("Event uid mismatch!")
 
     for attendee in event['attendee']:  # type: icalendar.vCalAddress
-      attendee_mailto = attendee.decode("utf-8")
+      attendee_mailto = str(attendee)
       if attendee_mailto.casefold() == attendee_email.casefold():
         return attendee
 
