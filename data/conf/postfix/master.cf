@@ -6,6 +6,7 @@ smtp       inet  n       -       n       -       1       postscreen
 smtpd      pass  -       -       n       -       -       smtpd
   -o smtpd_sasl_auth_enable=no
   -o smtpd_sender_restrictions=permit_mynetworks,reject_unlisted_sender,reject_unknown_sender_domain
+  -o content_filter=calfilter:[calendarfilter]:8894
 
 # smtpd tls-wrapped (smtps) on 465/tcp
 # TLS protocol can be modified by setting smtps_smtpd_tls_mandatory_protocols in extra.cf
@@ -144,3 +145,20 @@ watchdog_discard    unix  -       -       n       -       -       discard
    -o syslog_facility=local7
    -o syslog_name=watchdog
 # end watchdog-specific
+
+# start calendarfilter
+10032      inet  n       -       n       -       10       smtpd
+  -o content_filter=
+  -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks,no_milters,no_address_mappings
+  -o smtpd_helo_restrictions=
+  -o smtpd_client_restrictions=
+  -o smtpd_sender_restrictions=
+  # Postfix 2.10 and later: specify empty smtpd_relay_restrictions.
+  -o smtpd_relay_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o mynetworks=127.0.0.0/8,172.22.1.0/24,[fd4d:6169:6c63:6f77::]/64
+  -o smtpd_authorized_xforward_hosts=127.0.0.0/8,172.22.1.0/24,[fd4d:6169:6c63:6f77::]/64
+calfilter      unix  -       -       n       -       10      smtp
+  -o smtp_send_xforward_command=yes
+  -o disable_mime_output_conversion=yes
+# end calendarfilter
