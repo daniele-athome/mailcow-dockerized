@@ -130,7 +130,7 @@ class CalendarPlugin(ScannerPlugin):
 
             self.logger.debug("Attendees: %s", attendees)
             for attendee in attendees:
-              attendee_mailto = str(attendee)
+              attendee_mailto = attendee.decode("utf-8")
               if not mailto_matches(attendee_mailto, suspect.from_address) and \
                 not mailto_matches(attendee_mailto, from_address):
                 self.logger.warning("Not accepting reply on behalf of another user! " +
@@ -201,7 +201,7 @@ class CalendarPlugin(ScannerPlugin):
       raise ValueError("Event uid mismatch!")
 
     for attendee in event['attendee']:  # type: icalendar.vCalAddress
-      attendee_mailto = str(attendee)
+      attendee_mailto = attendee.decode("utf-8")
       if attendee_mailto.casefold() == attendee_email.casefold():
         return attendee
 
