@@ -202,11 +202,11 @@ class CalendarPlugin(ScannerPlugin):
 
     if isinstance(event['attendee'], list):
       for attendee in event['attendee']:  # type: icalendar.vCalAddress
-        if attendee.casefold() == attendee.casefold():
+        if attendee.casefold() == attendee_email.casefold():
           return attendee
     else:
       attendee = event['attendee']
-      if attendee.casefold() == attendee.casefold():
+      if attendee.casefold() == attendee_email.casefold():
         return attendee
 
     raise ValueError("Attendee not found: %s" % attendee_email)
