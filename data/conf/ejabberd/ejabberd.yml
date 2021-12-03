@@ -173,6 +173,7 @@ modules:
     max_days: 30
   mod_http_upload:
     docroot: /var/www/upload
+    put_url: https://upload.@HOST@:5443/upload
     custom_headers:
       "Access-Control-Allow-Origin": "https://@HOST@"
       "Access-Control-Allow-Methods": "GET,HEAD,PUT,OPTIONS"
