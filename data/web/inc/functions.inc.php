@@ -347,7 +347,7 @@ function last_login($action, $username, $sasl_limit_days = 7) {
       return true;
     break;
   }
-  
+
 }
 function flush_memcached() {
   try {
@@ -687,8 +687,10 @@ function alertbox_log_parser($_data) {
       // Get type
       $type = $return['type'];
       // If a lang[type][msg] string exists, use it as message
-      if (is_string($lang[$return['type']][$return['msg']])) {
-        $msg = $lang[$return['type']][$return['msg']];
+      if (isset($return['type']) && isset($return['msg']) && !is_array($return['msg'])) {
+        if (isset($lang[$return['type']][$return['msg']])) {
+          $msg = $lang[$return['type']][$return['msg']];
+        }
       }
       // If msg is an array, use first element as language string and run printf on it with remaining array elements
       elseif (is_array($return['msg'])) {
