@@ -33,7 +33,7 @@ c2s_ciphers: 'TLS_CIPHERS'
 s2s_ciphers: 'TLS_CIPHERS'
 c2s_protocol_options: 'TLS_OPTIONS'
 s2s_protocol_options: 'TLS_OPTIONS'
-s2s_use_starttls: required
+s2s_use_starttls: optional
 
 new_sql_schema: true
 sql_type: sqlite
