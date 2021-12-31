@@ -15,6 +15,7 @@
       <input type="hidden" value="0" name="active">
       <input type="hidden" value="0" name="backupmx">
       <input type="hidden" value="0" name="gal">
+      <input type="hidden" value="0" name="xmpp">
       <input type="hidden" value="0" name="relay_all_recipients">
       <input type="hidden" value="0" name="relay_unknown_only">
       <div class="form-group" data-acl="{{ acl.domain_desc }}">
@@ -93,6 +94,14 @@
           <div class="checkbox">
             <label><input type="checkbox" value="1" name="gal"{% if result.gal == '1' %} checked{% endif %}> {{ lang.edit.gal }}</label>
             <small class="help-block">{{ lang.edit.gal_info|raw }}</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label><input type="checkbox" value="1" name="xmpp"{% if result.xmpp == '1' %} checked{% endif %}> {{ lang.edit.xmpp }}</label>
+            <small class="help-block">{{ lang.edit.xmpp_info|raw }}</small>
           </div>
         </div>
       </div>
