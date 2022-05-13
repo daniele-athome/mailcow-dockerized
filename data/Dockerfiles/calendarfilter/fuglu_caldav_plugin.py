@@ -178,17 +178,28 @@ class CalendarPlugin(ScannerPlugin):
                               ssl_verify_cert=ssl_verify_cert)
     return caldav.Principal(client, url)
 
-  def find_event(self, principal: caldav.Principal, uid: str) -> Union[caldav.Event, None]:
+  def find_event(self, principal: caldav.Principal, uid: str) -> Union[caldav.CalendarObjectResource, None]:
     for calendar in principal.calendars():  # type: caldav.Calendar
       try:
+        print(calendar.event_by_url(calendar.canonical_url + uid + '.ics'))
         event = calendar.event_by_uid(uid)
         self.logger.debug("EVENT: %s", event)
         if event:
           event.load()
           return event
       except caldav.lib.error.NotFoundError:
-        self.logger.debug("EVENT: error!")
-        pass
+        # HACK try falling back to plain GET (SOGo bug?)
+        event_url = calendar.canonical_url
+        if not event_url.endswith('/'):
+          event_url += '/'
+        event_url += uid + '.ics'
+        try:
+          event = calendar.event_by_url(event_url)
+          if event:
+            return event
+        except caldav.lib.error.NotFoundError:
+          self.logger.debug("EVENT: error!")
+          pass
     return None
 
   def get_invited_attendee(self, ical_object: icalendar.Calendar, event_uid, attendee_email) -> icalendar.vCalAddress:
