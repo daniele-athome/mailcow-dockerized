@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL C
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& touch /etc/default/locale
 
 RUN pip3 install wheel
-RUN pip3 install fuglu caldav icalendar
+RUN pip3 install fuglu==0.10.8 caldav==0.9.0 icalendar==4.0.9
 
 COPY fuglu_logging.conf /etc/fuglu/logging.conf
 COPY fuglu_caldav_plugin.py /usr/local/fuglu/plugins/calendar_caldav.py
