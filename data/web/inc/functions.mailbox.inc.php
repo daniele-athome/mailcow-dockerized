@@ -347,27 +347,6 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             else $param = rtrim($param, ' ');
             // remove first char if first char is -
             if ($param[0] == '-') $param = ltrim($param, $param[0]);
-
-            if (str_contains($param, ' ')) {
-              // bad char
-              $_SESSION['return'][] = array(
-                'type' => 'danger',
-                'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                'msg' => 'bad character SPACE'
-              );
-              return false;
-            }
-
-            // check if param is whitelisted
-            if (!in_array(strtolower($param), $GLOBALS["IMAPSYNC_OPTIONS"]["whitelist"])){
-              // bad option
-              $_SESSION['return'][] = array(
-                'type' => 'danger',
-                'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                'msg' => 'bad option '. $param
-              );
-              return false;
-            }
           }
           if (empty($subfolder2)) {
             $subfolder2 = "";
@@ -1232,7 +1211,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             ':active' => $active
           ));
 
-          
+
           if (isset($_data['acl'])) {
             $_data['acl'] = (array)$_data['acl'];
             $_data['spam_alias'] = (in_array('spam_alias', $_data['acl'])) ? 1 : 0;
@@ -1263,13 +1242,13 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $_data['quarantine_attachments'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['acl_quarantine_attachments']);
             $_data['quarantine_notification'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['acl_quarantine_notification']);
             $_data['quarantine_category'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['acl_quarantine_category']);
-            $_data['app_passwds'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['acl_app_passwds']);     
+            $_data['app_passwds'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['acl_app_passwds']);
           }
 
           try {
-            $stmt = $pdo->prepare("INSERT INTO `user_acl` 
+            $stmt = $pdo->prepare("INSERT INTO `user_acl`
               (`username`, `spam_alias`, `tls_policy`, `spam_score`, `spam_policy`, `delimiter_action`, `syncjobs`, `eas_reset`, `sogo_profile_reset`,
-                `pushover`, `quarantine`, `quarantine_attachments`, `quarantine_notification`, `quarantine_category`, `app_passwds`) 
+                `pushover`, `quarantine`, `quarantine_attachments`, `quarantine_notification`, `quarantine_category`, `app_passwds`)
               VALUES (:username, :spam_alias, :tls_policy, :spam_score, :spam_policy, :delimiter_action, :syncjobs, :eas_reset, :sogo_profile_reset,
                 :pushover, :quarantine, :quarantine_attachments, :quarantine_notification, :quarantine_category, :app_passwds) ");
             $stmt->execute(array(
@@ -1463,7 +1442,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             );
             return false;
           }
-          
+
           // check attributes
           $attr = array();
           $attr['tags']                       = (isset($_data['tags'])) ? $_data['tags'] : array();
@@ -1553,7 +1532,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $attr['pop3_access'] = (in_array('pop3', $_data['protocol_access'])) ? 1 : 0;
             $attr['smtp_access'] = (in_array('smtp', $_data['protocol_access'])) ? 1 : 0;
             $attr['sieve_access'] = (in_array('sieve', $_data['protocol_access'])) ? 1 : 0;
-          }   
+          }
           else {
             $attr['imap_access'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['imap_access']);
             $attr['pop3_access'] = intval($MAILBOX_DEFAULT_ATTRIBUTES['pop3_access']);
@@ -2094,27 +2073,6 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               else $param = rtrim($param, ' ');
               // remove first char if first char is -
               if ($param[0] == '-') $param = ltrim($param, $param[0]);
-
-              if (str_contains($param, ' ')) {
-                // bad char
-                $_SESSION['return'][] = array(
-                  'type' => 'danger',
-                  'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                  'msg' => 'bad character SPACE'
-                );
-                return false;
-              }
-  
-              // check if param is whitelisted
-              if (!in_array(strtolower($param), $GLOBALS["IMAPSYNC_OPTIONS"]["whitelist"])){
-                // bad option
-                $_SESSION['return'][] = array(
-                  'type' => 'danger',
-                  'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                  'msg' => 'bad option '. $param
-                );
-                return false;
-              }
             }
             if (empty($subfolder2)) {
               $subfolder2 = "";
@@ -2797,11 +2755,11 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             // check name
             if ($is_now["template"] == "Default" && $is_now["template"] != $_data["template"]){
               // keep template name of Default template
-              $_data["template"]                   = $is_now["template"]; 
+              $_data["template"]                   = $is_now["template"];
             }
             else {
-              $_data["template"]                   = (isset($_data["template"])) ? $_data["template"] : $is_now["template"]; 
-            }   
+              $_data["template"]                   = (isset($_data["template"])) ? $_data["template"] : $is_now["template"];
+            }
             // check attributes
             $attr = array();
             $attr['tags']                       = (isset($_data['tags'])) ? $_data['tags'] : array();
@@ -2828,10 +2786,10 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               ":id" => $id ,
               ":template" => $_data["template"] ,
               ":attributes" => json_encode($attr)
-            )); 
+            ));
           }
 
-  
+
           $_SESSION['return'][] = array(
             'type' => 'success',
             'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
@@ -3174,7 +3132,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
                 ':tag_name' => $tag,
               ));
             }
-            
+
             $_SESSION['return'][] = array(
               'type' => 'success',
               'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
@@ -3217,11 +3175,11 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             // check name
             if ($is_now["template"] == "Default" && $is_now["template"] != $_data["template"]){
               // keep template name of Default template
-              $_data["template"]                   = $is_now["template"]; 
+              $_data["template"]                   = $is_now["template"];
             }
             else {
-              $_data["template"]                   = (isset($_data["template"])) ? $_data["template"] : $is_now["template"]; 
-            }   
+              $_data["template"]                   = (isset($_data["template"])) ? $_data["template"] : $is_now["template"];
+            }
             // check attributes
             $attr = array();
             $attr["quota"]                       = isset($_data['quota']) ? intval($_data['quota']) * 1048576 : 0;
@@ -3241,11 +3199,11 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               $attr['pop3_access'] = (in_array('pop3', $_data['protocol_access'])) ? 1 : 0;
               $attr['smtp_access'] = (in_array('smtp', $_data['protocol_access'])) ? 1 : 0;
               $attr['sieve_access'] = (in_array('sieve', $_data['protocol_access'])) ? 1 : 0;
-            }          
-            else { 
+            }
+            else {
               foreach ($is_now as $key => $value){
                 $attr[$key] = $is_now[$key];
-              }    
+              }
             }
             if (isset($_data['acl'])) {
               $_data['acl'] = (array)$_data['acl'];
@@ -3263,10 +3221,10 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               $attr['acl_quarantine_notification'] = (in_array('quarantine_notification', $_data['acl'])) ? 1 : 0;
               $attr['acl_quarantine_category'] = (in_array('quarantine_category', $_data['acl'])) ? 1 : 0;
               $attr['acl_app_passwds'] = (in_array('app_passwds', $_data['acl'])) ? 1 : 0;
-            } else {    
+            } else {
               foreach ($is_now as $key => $value){
                 $attr[$key] = $is_now[$key];
-              }        
+              }
             }
 
 
@@ -3278,7 +3236,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               ":id" => $id ,
               ":template" => $_data["template"] ,
               ":attributes" => json_encode($attr)
-            )); 
+            ));
           }
 
 
@@ -3307,7 +3265,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               );
               continue;
             }
-            $is_now = mailbox('get', 'mailbox_details', $mailbox);            
+            $is_now = mailbox('get', 'mailbox_details', $mailbox);
             if(!empty($is_now)){
               if (!hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'], $is_now['domain'])) {
                 $_SESSION['return'][] = array(
@@ -3334,15 +3292,15 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $stmt->execute(array(
               ":username" => $mailbox,
               ":custom_attributes" => json_encode($attributes)
-            ));             
-            
+            ));
+
             $_SESSION['return'][] = array(
               'type' => 'success',
               'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
               'msg' => array('mailbox_modified', $mailbox)
             );
           }
-          
+
           return true;
         break;
         case 'resource':
@@ -3424,7 +3382,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             );
           }
         break;
-        case 'domain_wide_footer':  
+        case 'domain_wide_footer':
           if (!is_array($_data['domains'])) {
             $domains = array();
             $domains[] = $_data['domains'];
@@ -3677,7 +3635,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
 
             // prepend domain to array
             $params = array();
-            foreach ($tags as $key => $val){ 
+            foreach ($tags as $key => $val){
               array_push($params, '%'.$_data.'%');
               array_push($params, '%'.$val.'%');
             }
@@ -3686,7 +3644,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
 
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             while($row = array_shift($rows)) {
-              if (hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'], explode('@', $row['username'])[1])) 
+              if (hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'], explode('@', $row['username'])[1]))
                 $mailboxes[] = $row['username'];
             }
           }
@@ -4241,7 +4199,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             while($row = array_shift($rows)) {
               if ($_SESSION['mailcow_cc_role'] == "admin")
                 $domains[] = $row['domain'];
-              elseif (hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'], $row['domain'])) 
+              elseif (hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'], $row['domain']))
                 $domains[] = $row['domain'];
             }
           } else {
@@ -4401,19 +4359,19 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
           }
           $_data = (isset($_data)) ? intval($_data) : null;
 
-          if (isset($_data)){          
-            $stmt = $pdo->prepare("SELECT * FROM `templates` 
+          if (isset($_data)){
+            $stmt = $pdo->prepare("SELECT * FROM `templates`
               WHERE `id` = :id AND type = :type");
             $stmt->execute(array(
               ":id" => $_data,
               ":type" => "domain"
             ));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  
+
             if (empty($row)){
               return false;
             }
-  
+
             $row["attributes"] = json_decode($row["attributes"], true);
             return $row;
           }
@@ -4421,11 +4379,11 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $stmt = $pdo->prepare("SELECT * FROM `templates` WHERE `type` =  'domain'");
             $stmt->execute();
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  
+
             if (empty($rows)){
               return false;
             }
-  
+
             foreach($rows as $key => $row){
               $rows[$key]["attributes"] = json_decode($row["attributes"], true);
             }
@@ -4591,19 +4549,19 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
           }
           $_data = (isset($_data)) ? intval($_data) : null;
 
-          if (isset($_data)){          
-            $stmt = $pdo->prepare("SELECT * FROM `templates` 
+          if (isset($_data)){
+            $stmt = $pdo->prepare("SELECT * FROM `templates`
               WHERE `id` = :id AND type = :type");
             $stmt->execute(array(
               ":id" => $_data,
               ":type" => "mailbox"
             ));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  
+
             if (empty($row)){
               return false;
             }
-  
+
             $row["attributes"] = json_decode($row["attributes"], true);
             return $row;
           }
@@ -5045,7 +5003,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $ids = $_data['ids'];
           }
 
-          
+
           foreach ($ids as $id) {
             // delete template
             $stmt = $pdo->prepare("DELETE FROM `templates`
@@ -5358,7 +5316,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               );
               continue;
             }
-            
+
             update_sogo_static_view($username);
             $_SESSION['return'][] = array(
               'type' => 'success',
@@ -5385,7 +5343,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             $ids = $_data['ids'];
           }
 
-          
+
           foreach ($ids as $id) {
             // delete template
             $stmt = $pdo->prepare("DELETE FROM `templates`
@@ -5394,7 +5352,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               ":id" => $id,
               ":type" => "mailbox",
               ":template" => "Default"
-            )); 
+            ));
           }
 
           $_SESSION['return'][] = array(
@@ -5468,7 +5426,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             );
           }
         break;
-        case 'tags_domain':    
+        case 'tags_domain':
           if (!is_array($_data['domain'])) {
             $domains = array();
             $domains[] = $_data['domain'];
@@ -5481,7 +5439,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
 
 
           $wasModified = false;
-          foreach ($domains as $domain) {            
+          foreach ($domains as $domain) {
             if (!is_valid_domain_name($domain)) {
               $_SESSION['return'][] = array(
                 'type' => 'danger',
@@ -5498,7 +5456,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               );
               return false;
             }
-            
+
             foreach($tags as $tag){
               // delete tag
               $wasModified = true;
@@ -5553,7 +5511,7 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             // delete tags
             foreach($tags as $tag){
               $wasModified = true;
-              
+
               $stmt = $pdo->prepare("DELETE FROM `tags_mailbox` WHERE `username` = :username AND `tag_name` = :tag_name");
               $stmt->execute(array(
                 ':username' => $username,
