@@ -352,27 +352,6 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
             else $param = rtrim($param, ' ');
             // remove first char if first char is -
             if ($param[0] == '-') $param = ltrim($param, $param[0]);
-
-            if (str_contains($param, ' ')) {
-              // bad char
-              $_SESSION['return'][] = array(
-                'type' => 'danger',
-                'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                'msg' => 'bad character SPACE'
-              );
-              return false;
-            }
-
-            // check if param is whitelisted
-            if (!in_array(strtolower($param), $GLOBALS["IMAPSYNC_OPTIONS"]["whitelist"])){
-              // bad option
-              $_SESSION['return'][] = array(
-                'type' => 'danger',
-                'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                'msg' => 'bad option '. $param
-              );
-              return false;
-            }
           }
           if (empty($subfolder2)) {
             $subfolder2 = "";
@@ -2256,27 +2235,6 @@ function mailbox($_action, $_type, $_data = null, $_extra = null) {
               else $param = rtrim($param, ' ');
               // remove first char if first char is -
               if ($param[0] == '-') $param = ltrim($param, $param[0]);
-
-              if (str_contains($param, ' ')) {
-                // bad char
-                $_SESSION['return'][] = array(
-                  'type' => 'danger',
-                  'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                  'msg' => 'bad character SPACE'
-                );
-                return false;
-              }
-
-              // check if param is whitelisted
-              if (!in_array(strtolower($param), $GLOBALS["IMAPSYNC_OPTIONS"]["whitelist"])){
-                // bad option
-                $_SESSION['return'][] = array(
-                  'type' => 'danger',
-                  'log' => array(__FUNCTION__, $_action, $_type, $_data_log, $_attr),
-                  'msg' => 'bad option '. $param
-                );
-                return false;
-              }
             }
             if (empty($subfolder2)) {
               $subfolder2 = "";
