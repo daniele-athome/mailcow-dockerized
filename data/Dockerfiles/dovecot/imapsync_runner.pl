@@ -154,7 +154,16 @@ while ($row = $sth->fetchrow_arrayref()) {
   "--passfile2", $passfile2->filename,
   ($dry eq "1" ? ('--dry') : ()),
   '--no-modulesversion',
-  '--noreleasecheck'];
+  '--noreleasecheck',
+  '--noautomap',
+  '--useheader', 'Message-Id',
+  '--useheader', 'X-Gmail-Received',
+  '--synclabels',
+  '--gmail1',
+  '--maxbytespersecond', '20000',
+  '--maxbytesafter', '1000000000',
+  '--folder', '[Gmail]/All Mail',
+  '--f1f2', '[Gmail]/All Mail=Gmail'];
 
   try {
     $is_running = $dbh->prepare("UPDATE imapsync SET is_running = 1, success = NULL, exit_status = NULL WHERE id = ?");
