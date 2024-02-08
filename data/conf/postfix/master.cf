@@ -7,8 +7,8 @@ smtpd      pass  -       -       n       -       -       smtpd
   -o smtpd_helo_restrictions=permit_mynetworks,reject_non_fqdn_helo_hostname
   -o smtpd_sasl_auth_enable=no
   -o smtpd_sender_restrictions=permit_mynetworks,reject_unlisted_sender,reject_unknown_sender_domain
-  -o smtp_address_preference=ipv4
-  -o content_filter=calfilter:[calendarfilter]:8894
+  #-o smtp_address_preference=ipv4
+  #-o content_filter=calfilter:[calendarfilter]:8894
 
 # smtpd tls-wrapped (smtps) on 465/tcp
 # TLS protocol can be modified by setting smtps_smtpd_tls_mandatory_protocols in extra.cf
