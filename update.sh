@@ -536,6 +536,7 @@ if [[ ${SKIP_START} == "y" ]]; then
 else
   echo -e "\e[32mStarting mailcow...\e[0m"
   sleep 2
+  $COMPOSE_COMMAND build --no-cache
   $COMPOSE_COMMAND up -d --remove-orphans
 fi
 
